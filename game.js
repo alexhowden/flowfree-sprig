@@ -281,11 +281,12 @@ c....
 .....
 ..B..
 .....
-.....`,
+....B`,
 ];
 
 let level = 0;
 let toggle = 0;
+let coordList = [];
 
 addText("WASD: Movement", {x: 3, y: 5, color: color`0`});
 addText("I: Toggle Drag", {x: 3, y: 8, color: color`0`});
@@ -307,6 +308,7 @@ onInput("w", () => {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).y -= 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+    appendItem(coordList, (getFirst(playerToggle).x, getFirst(playerToggle).y));
   }
 });
 
@@ -317,6 +319,7 @@ onInput("a", () => {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).x -= 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+    appendItem(coordList, (getFirst(playerToggle).x, getFirst(playerToggle).y));
   }
 });
 
@@ -327,6 +330,7 @@ onInput("s", () => {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).y += 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+    appendItem(coordList, (getFirst(playerToggle).x, getFirst(playerToggle).y));
   }
 });
 
@@ -337,6 +341,7 @@ onInput("d", () => {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).x += 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+    appendItem(coordList, (getFirst(playerToggle).x, getFirst(playerToggle).y));
   }
 });
 
@@ -371,8 +376,9 @@ function changeLevel() {
 }
 
 function toggleDrag() {
+  const sprt = getTile(getFirst(player).x, getFirst(player).y)[1]["type"];
   if (toggle == 0) {
-    if (getTile(getFirst(player).x, getFirst(player).y).length != 1) {
+    if (sprt in ["R", "O", "Y", "G", "B", "P"]) {
       toggle = 1;
       getFirst(player).type = playerToggle;
     }
@@ -380,6 +386,13 @@ function toggleDrag() {
     if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length != 1) {
       toggle = 0;
       getFirst(playerToggle).type = player;
+    }
+    if (sprt in ["r", "o", "y", "g", "b", "p"]) {
+      for (var i = 0; i < coordList.length - 1; i++) {
+        clearTile(coordList[i]);
+      }
+      coordList = [];
+      
     }
   }
 }
