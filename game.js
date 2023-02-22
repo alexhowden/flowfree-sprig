@@ -285,7 +285,8 @@ c....
 
 let level = 0;
 let toggle = 0;
-let coordList = [];
+let xList = [];
+let yList = [];
 
 addText("WASD: Movement", {x: 3, y: 5, color: color`0`});
 addText("I: Toggle Drag", {x: 3, y: 8, color: color`0`});
@@ -303,44 +304,65 @@ setPushables({
 onInput("w", () => {
   if (toggle == 0) {
     getFirst(player).y -= 1;
-  } else if (!["r", "o", "y", "g", "b", "p", "."].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1))) {
-    const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
-    getFirst(playerToggle).y -= 1;
-    addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
-    coordList.push(getFirst(playerToggle).x, getFirst(playerToggle).y);
+  } else {
+    if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1)[0]["type"])) {
+      const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
+      if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1)[0]["type"])) {
+        getFirst(playerToggle).y -= 1;
+        xList.push(getFirst(playerToggle).x);
+        yList.push(getFirst(playerToggle).y);
+        addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+      }
+    }
   }
 });
 
 onInput("a", () => {
   if (toggle == 0) {
     getFirst(player).x -= 1;
-  } else if (!["r", "o", "y", "g", "b", "p", "."].includes(getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y))) {
-    const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
-    getFirst(playerToggle).x -= 1;
-    addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
-    coordList.push(getFirst(playerToggle).x, getFirst(playerToggle).y);
+  } else {
+    if (getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y)[0]["type"])) {
+      const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
+      if (getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y)[0]["type"])) {
+        getFirst(playerToggle).x -= 1;
+        xList.push(getFirst(playerToggle).x);
+        yList.push(getFirst(playerToggle).y);
+        addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+      }
+    }
   }
 });
 
 onInput("s", () => {
   if (toggle == 0) {
     getFirst(player).y += 1;
-  } else if (!["r", "o", "y", "g", "b", "p", "."].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1))) {
-    const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
-    getFirst(playerToggle).y += 1;
-    addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
-    coordList.push(getFirst(playerToggle).x, getFirst(playerToggle).y);
+  } else {
+    if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1)[0]["type"])) {
+      const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
+      if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1)[0]["type"])) {
+        getFirst(playerToggle).y += 1;
+        xList.push(getFirst(playerToggle).x);
+        yList.push(getFirst(playerToggle).y);
+        addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+      }
+    }
   }
 });
 
 onInput("d", () => {
   if (toggle == 0) {
     getFirst(player).x += 1;
-  } else if (!["r", "o", "y", "g", "b", "p", "."].includes(getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y))) {
-    const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
-    getFirst(playerToggle).x += 1;
-    addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
-    coordList.push(getFirst(playerToggle).x, getFirst(playerToggle).y);
+  } else {
+    if (getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y)[0]["type"])) {
+      const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
+      if (getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y)[0]["type"])) {
+        getFirst(playerToggle).x += 1;
+        xList.push(getFirst(playerToggle).x);
+        yList.push(getFirst(playerToggle).y);
+        addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+      }
+      
+    }
   }
 });
 
@@ -376,11 +398,11 @@ function changeLevel() {
 
 function toggleDrag() {
   if (toggle == 0) {
-    const sprt = getTile(getFirst(player).x, getFirst(player).y)[1]["type"];
-    console.log("w");
-    if (["R", "O", "Y", "G", "B", "P"].includes(sprt)) {
-      toggle = 1;
-      getFirst(player).type = playerToggle;
+    if (getTile(getFirst(player).x, getFirst(player).y).length > 1) {
+      if (["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(player).x, getFirst(player).y)[1]["type"])) {
+        toggle = 1;
+        getFirst(player).type = playerToggle;
+      }
     }
   } else {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
@@ -388,12 +410,13 @@ function toggleDrag() {
       toggle = 0;
       getFirst(playerToggle).type = player;
     }
-    if (sprt in ["r", "o", "y", "g", "b", "p"]) {
-      for (var i = 0; i < coordList.length - 1; i++) {
-        clearTile(coordList[i]);
+    console.log(getTile(getFirst(player).x, getFirst(player).y).length);
+    if (["r", "o", "y", "g", "b", "p"].includes(sprt) && getTile(getFirst(player).x, getFirst(player).y).length < 4) {
+      for (var i = 0; i < xList.length - 1; i++) {
+        clearTile(xList[i], yList[i]);
       }
-      coordList = [];
-      
+      xList = [];
+      yList = [];
     }
   }
 }
