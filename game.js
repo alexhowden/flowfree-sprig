@@ -1,7 +1,6 @@
 /*
 @title: connect the dots
 @author: pxkka
-
 shit to do
 - make it so you can only drag starting on an endpoint
 - make it so you can drop off on an endpoint of same color, and if not, delete the chain
@@ -304,11 +303,11 @@ setPushables({
 onInput("w", () => {
   if (toggle == 0) {
     getFirst(player).y -= 1;
-  } else if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1) == "") {
+  } else if (!["r", "o", "y", "g", "b", "p"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1))) {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).y -= 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
-    appendItem(coordList, (getFirst(playerToggle).x, getFirst(playerToggle).y));
+    coordList.push(getFirst(playerToggle).x, getFirst(playerToggle).y);
   }
 });
 
@@ -319,7 +318,7 @@ onInput("a", () => {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).x -= 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
-    appendItem(coordList, (getFirst(playerToggle).x, getFirst(playerToggle).y));
+    coordList.push(getFirst(playerToggle).x, getFirst(playerToggle).y);
   }
 });
 
@@ -330,7 +329,7 @@ onInput("s", () => {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).y += 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
-    appendItem(coordList, (getFirst(playerToggle).x, getFirst(playerToggle).y));
+    coordList.push(getFirst(playerToggle).x, getFirst(playerToggle).y);
   }
 });
 
@@ -341,7 +340,7 @@ onInput("d", () => {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).x += 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
-    appendItem(coordList, (getFirst(playerToggle).x, getFirst(playerToggle).y));
+    coordList.push(getFirst(playerToggle).x, getFirst(playerToggle).y);
   }
 });
 
@@ -376,13 +375,15 @@ function changeLevel() {
 }
 
 function toggleDrag() {
-  const sprt = getTile(getFirst(player).x, getFirst(player).y)[1]["type"];
   if (toggle == 0) {
-    if (sprt in ["R", "O", "Y", "G", "B", "P"]) {
+    const sprt = getTile(getFirst(player).x, getFirst(player).y)[1]["type"];
+    console.log("w");
+    if (["R", "O", "Y", "G", "B", "P"].includes(sprt)) {
       toggle = 1;
       getFirst(player).type = playerToggle;
     }
   } else {
+    const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length != 1) {
       toggle = 0;
       getFirst(playerToggle).type = player;
