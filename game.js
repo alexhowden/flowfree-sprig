@@ -6,7 +6,7 @@ shit to do
 - make it so you can only drag starting on an endpoint
 - make it so you can drop off on an endpoint of same color, and if not, delete the chain
 - win logic
-- make a shit ton of levels for the 5 mins of gameplay
+- make a ton of levels for the 5 mins of gameplay
 */
 
 const player = "c";
