@@ -303,7 +303,7 @@ setPushables({
 onInput("w", () => {
   if (toggle == 0) {
     getFirst(player).y -= 1;
-  } else if (!["r", "o", "y", "g", "b", "p"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1))) {
+  } else if (!["r", "o", "y", "g", "b", "p", "."].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1))) {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).y -= 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
@@ -314,7 +314,7 @@ onInput("w", () => {
 onInput("a", () => {
   if (toggle == 0) {
     getFirst(player).x -= 1;
-  } else if (getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y) == "") {
+  } else if (!["r", "o", "y", "g", "b", "p", "."].includes(getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y))) {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).x -= 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
@@ -325,7 +325,7 @@ onInput("a", () => {
 onInput("s", () => {
   if (toggle == 0) {
     getFirst(player).y += 1;
-  } else if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1) == "") {
+  } else if (!["r", "o", "y", "g", "b", "p", "."].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1))) {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).y += 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
@@ -336,7 +336,7 @@ onInput("s", () => {
 onInput("d", () => {
   if (toggle == 0) {
     getFirst(player).x += 1;
-  } else if (getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y) == "") {
+  } else if (!["r", "o", "y", "g", "b", "p", "."].includes(getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y))) {
     const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
     getFirst(playerToggle).x += 1;
     addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
