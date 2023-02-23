@@ -331,9 +331,7 @@ onInput("w", () => {
     if (getTile(pX, pY - 1) == "" || getTile(pX, pY- 1)[0]["type"] == dragSprt) {
       const sprt = getTile(pX, pY)[1]["type"];
       pY -= 1;
-      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
-        addSprite(pX, pY, dict[sprt]);
-      }    
+      addSprt(sprt);
     }
   }
 });
@@ -345,9 +343,7 @@ onInput("a", () => {
     if (getTile(pX - 1, pY) == "" || getTile(pX - 1, pY)[0]["type"] == dragSprt) {
       const sprt = getTile(pX, pY)[1]["type"];
       pX -= 1;
-      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
-        addSprite(pX, pY, dict[sprt]);
-      }    
+      addSprt(sprt);  
     }
   }
 });
@@ -359,9 +355,7 @@ onInput("s", () => {
     if (getTile(pX, pY + 1) == "" || getTile(pX, pY + 1)[0]["type"] == dragSprt) {
       const sprt = getTile(pX, pY)[1]["type"];
       pY += 1;
-      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
-        addSprite(pX, pY, dict[sprt]);
-      }    
+      addSprt(sprt);    
     }
   }
 });
@@ -373,9 +367,7 @@ onInput("d", () => {
     if (getTile(pX + 1, pY) == "" || getTile(pX + 1, pY)[0]["type"] == dragSprt) {
       const sprt = getTile(pX, pY)[1]["type"];
       pX += 1;
-      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
-        addSprite(pX, pY, dict[sprt]);
-      }
+      addSprt(sprt);
     }
   }
 });
