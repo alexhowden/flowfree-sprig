@@ -307,9 +307,12 @@ let toggle = 0;
 let startPos = [];
 let endPos = [];
 let dragSprt = "";
+let pX = "";
+let pY = "";
 
 addText("WASD: Movement", {x: 3, y: 5, color: color`0`});
-addText("I: Toggle Drag", {x: 3, y: 8, color: color`0`});
+addText("I: Toggle Drag", {x: 3, y: 7, color: color`0`});
+addText("J: Reset Color", {x: 3, y: 9, color: color`0`});
 addText("K: Reset Level", {x: 3, y: 11, color: color`0`});
 
 const currentLevel = levels[level];
@@ -323,13 +326,13 @@ setPushables({
 
 onInput("w", () => {
   if (toggle == 0) {
-    getFirst(player).y -= 1;
+    pY -= 1;
   } else {
-    if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1) == "" || getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1)[0]["type"] == dragSprt) {
-      const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
-      getFirst(playerToggle).y -= 1;
-      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length - 1]["type"])) {
-        addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+    if (getTile(pX, pY - 1) == "" || getTile(pX, pY- 1)[0]["type"] == dragSprt) {
+      const sprt = getTile(pX, pY)[1]["type"];
+      pY -= 1;
+      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
+        addSprite(pX, pY, dict[sprt]);
       }    
     }
   }
@@ -337,13 +340,13 @@ onInput("w", () => {
 
 onInput("a", () => {
   if (toggle == 0) {
-    getFirst(player).x -= 1;
+    pX -= 1;
   } else {
-    if (getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y) == "" || getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y)[0]["type"] == dragSprt) {
-      const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
-      getFirst(playerToggle).x -= 1;
-      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length - 1]["type"])) {
-        addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+    if (getTile(pX - 1, pY) == "" || getTile(pX - 1, pY)[0]["type"] == dragSprt) {
+      const sprt = getTile(pX, pY)[1]["type"];
+      pX -= 1;
+      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
+        addSprite(pX, pY, dict[sprt]);
       }    
     }
   }
@@ -351,13 +354,13 @@ onInput("a", () => {
 
 onInput("s", () => {
   if (toggle == 0) {
-    getFirst(player).y += 1;
+    pY += 1;
   } else {
-    if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1) == "" || getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1)[0]["type"] == dragSprt) {
-      const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
-      getFirst(playerToggle).y += 1;
-      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length - 1]["type"])) {
-        addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+    if (getTile(pX, pY + 1) == "" || getTile(pX, pY + 1)[0]["type"] == dragSprt) {
+      const sprt = getTile(pX, pY)[1]["type"];
+      pY += 1;
+      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
+        addSprite(pX, pY, dict[sprt]);
       }    
     }
   }
@@ -365,13 +368,13 @@ onInput("s", () => {
 
 onInput("d", () => {
   if (toggle == 0) {
-    getFirst(player).x += 1;
+    pX += 1;
   } else {
-    if (getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y) == "" || getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y)[0]["type"] == dragSprt) {
-      const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
-      getFirst(playerToggle).x += 1;
-      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length - 1]["type"])) {
-        addSprite(getFirst(playerToggle).x, getFirst(playerToggle).y, dict[sprt]);
+    if (getTile(pX + 1, pY) == "" || getTile(pX + 1, pY)[0]["type"] == dragSprt) {
+      const sprt = getTile(pX, pY)[1]["type"];
+      pX += 1;
+      if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
+        addSprite(pX, pY, dict[sprt]);
       }
     }
   }
@@ -382,14 +385,14 @@ onInput("i", () => {
 });
 
 onInput("j", () => {
-  console.log(getTile(getFirst(player).x, getFirst(player).y)[getTile(getFirst(player).x, getFirst(player).y).length - 2]["type"]);
-  if (["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(player).x, getFirst(player).y)[getTile(getFirst(player).x, getFirst(player).y).length - 2]["type"])) {
-    while (getAll(dict[getTile(getFirst(player).x, getFirst(player).y)[1]["type"]]).length > 0) {
-      getFirst(dict[getTile(getFirst(player).x, getFirst(player).y)[1]["type"]]).remove();
+  console.log(getTile(pX, pY)[getTile(pX, pY).length - 2]["type"]);
+  if (["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 2]["type"])) {
+    while (getAll(dict[getTile(pX, pY)[1]["type"]]).length > 0) {
+      getFirst(dict[getTile(pX, pY)[1]["type"]]).remove();
     }
-    for (var i = 0; i < tilesWith(getTile(getFirst(player).x, getFirst(player).y)[1]["type"]).length - 1; i++) {
-      for (var k = 0; k < tilesWith(getTile(getFirst(player).x, getFirst(player).y)[1]["type"])[i]; k++) {
-    console.log(tilesWith(getTile(getFirst(player).x, getFirst(player).y)[1]["type"]));
+    for (var i = 0; i < tilesWith(getTile(pX, pY)[1]["type"]).length - 1; i++) {
+      for (var k = 0; k < tilesWith(getTile(pX, pY)[1]["type"])[i]; k++) {
+    console.log(tilesWith(getTile(pX, pY)[1]["type"]));
     //cont here
   }
 });
@@ -399,6 +402,13 @@ onInput("k", () => {
 });
 
 afterInput(() => {
+  if (toggle == 0) {
+    pX = getFirst(player).x;
+    pY = getFirst(player).y;
+  } else {
+    pX = getFirst(playerToggle).x;
+    pY = getFirst(playerToggle).y;
+  }
   if (level == 0 || tilesWith(player, red, orange, yellow, green, blue, purple).length == currentLevel.length) {
     level++;
     changeLevel();
@@ -420,18 +430,18 @@ function changeLevel() {
 function toggleDrag() {
   if (toggle == 0) {
     try {
-      dragSprt = getTile(getFirst(player).x, getFirst(player).y)[1]["type"];
+      dragSprt = getTile(pX, pY)[1]["type"];
     } catch (error) {}
-    console.log(getTile(getFirst(player).x, getFirst(player).y)[getTile(getFirst(player).x, getFirst(player).y).length - 1]["type"]);
-    if (getTile(getFirst(player).x, getFirst(player).y)[getTile(getFirst(player).x, getFirst(player).y).length - 1]["type"] != "l" && getTile(getFirst(player).x, getFirst(player).y).length > 1 && ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(player).x, getFirst(player).y)[1]["type"])) {
+    console.log(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"]);
+    if (getTile(pX, pY)[getTile(pX, pY).length - 1]["type"] != "l" && getTile(pX, pY).length > 1 && ["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[1]["type"])) {
       toggle = 1;
       getFirst(player).type = playerToggle;
-      startPos = [getFirst(playerToggle).x, getFirst(playerToggle).y];
+      startPos = [pX, pY];
     }
   } else {
     toggle = 0;
     getFirst(playerToggle).type = player;
-    endPos = [getFirst(player).x, getFirst(player).y];
+    endPos = [pX, pY];
     if (startPos == endPos || getTile(startPos[0], startPos[1])[0]["type"] != getTile(endPos[0], endPos[1])[getTile(endPos[0], endPos[1]).length - 1]["type"] || (getTile(endPos[0], endPos[1]).length >= 3 && !["R", "O", "Y", "G", "B", "P"].includes(dragSprt))) {
       while (getAll(dict[dragSprt]).length > 0) {
         getFirst(dict[dragSprt]).remove();
@@ -441,4 +451,10 @@ function toggleDrag() {
       addSprite(endPos[0], endPos[1], lock);
     }
   }
+}
+
+function addSprt(sprt) {
+  if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(pX, pY)[getTile(pX, pY).length - 1]["type"])) {
+    addSprite(pX, pY, dict[sprt]);
+  } 
 }
