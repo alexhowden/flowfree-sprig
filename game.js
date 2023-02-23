@@ -1,8 +1,8 @@
 /*
 @title: connect the dots
 @author: pxkka
-shit to do
-- make sure only one line of each color
+- add lock to prevent new lines/changes
+- add button to reset one line
 - win logic
 - make a ton of levels for the 5 mins of gameplay
 */
@@ -23,6 +23,8 @@ const yellow = "y";
 const green = "g";
 const blue = "b";
 const purple = "p";
+
+const lock = "l";
 
 const dict = {"R": red, "O": orange, "Y": yellow, "G": green, "B": blue, "P": purple,
               "r": red, "o": orange, "y": yellow, "g": green, "b": blue, "p": purple};
@@ -265,7 +267,24 @@ HHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHH
-HHHHHHHHHHHHHHHH`]
+HHHHHHHHHHHHHHHH`],
+  [lock, bitmap`
+................
+................
+......LLLL......
+.....LLLLLL.....
+....LLL11LLL....
+....LL...1LL....
+....LL...1LL....
+.........1LL....
+....LLLLLLLL....
+....LLLLLLLL....
+....LLL00LLL....
+....LLL00LLL....
+....LLLLLLLL....
+....LLLLLLLL....
+................
+................`]
 );
 
 const levels = [
@@ -276,11 +295,11 @@ c....
 .....
 .....`,
   map`
-c..R.
+B.R.G
+c.O.P
 .....
-..B..
-.....
-.R..B`,
+.R.G.
+.BOP.`,
 ];
 
 let level = 0;
@@ -306,7 +325,7 @@ onInput("w", () => {
   if (toggle == 0) {
     getFirst(player).y -= 1;
   } else {
-    if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1)[0]["type"])) {
+    if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1) == "" || getTile(getFirst(playerToggle).x, getFirst(playerToggle).y - 1)[0]["type"] == dragSprt) {
       const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
       getFirst(playerToggle).y -= 1;
       if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length - 1]["type"])) {
@@ -320,7 +339,7 @@ onInput("a", () => {
   if (toggle == 0) {
     getFirst(player).x -= 1;
   } else {
-    if (getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y)[0]["type"])) {
+    if (getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y) == "" || getTile(getFirst(playerToggle).x - 1, getFirst(playerToggle).y)[0]["type"] == dragSprt) {
       const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
       getFirst(playerToggle).x -= 1;
       if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length - 1]["type"])) {
@@ -334,7 +353,7 @@ onInput("s", () => {
   if (toggle == 0) {
     getFirst(player).y += 1;
   } else {
-    if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1)[0]["type"])) {
+    if (getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1) == "" || getTile(getFirst(playerToggle).x, getFirst(playerToggle).y + 1)[0]["type"] == dragSprt) {
       const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
       getFirst(playerToggle).y += 1;
       if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length - 1]["type"])) {
@@ -348,7 +367,7 @@ onInput("d", () => {
   if (toggle == 0) {
     getFirst(player).x += 1;
   } else {
-    if (getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y) == "" || ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y)[0]["type"])) {
+    if (getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y) == "" || getTile(getFirst(playerToggle).x + 1, getFirst(playerToggle).y)[0]["type"] == dragSprt) {
       const sprt = getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[1]["type"];
       getFirst(playerToggle).x += 1;
       if (!["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(playerToggle).x, getFirst(playerToggle).y)[getTile(getFirst(playerToggle).x, getFirst(playerToggle).y).length - 1]["type"])) {
@@ -359,7 +378,20 @@ onInput("d", () => {
 });
 
 onInput("i", () => {
-    toggleDrag();
+  toggleDrag();
+});
+
+onInput("j", () => {
+  console.log(getTile(getFirst(player).x, getFirst(player).y)[getTile(getFirst(player).x, getFirst(player).y).length - 2]["type"]);
+  if (["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(player).x, getFirst(player).y)[getTile(getFirst(player).x, getFirst(player).y).length - 2]["type"])) {
+    while (getAll(dict[getTile(getFirst(player).x, getFirst(player).y)[1]["type"]]).length > 0) {
+      getFirst(dict[getTile(getFirst(player).x, getFirst(player).y)[1]["type"]]).remove();
+    }
+    for (var i = 0; i < tilesWith(getTile(getFirst(player).x, getFirst(player).y)[1]["type"]).length - 1; i++) {
+      for (var k = 0; k < tilesWith(getTile(getFirst(player).x, getFirst(player).y)[1]["type"])[i]; k++) {
+    console.log(tilesWith(getTile(getFirst(player).x, getFirst(player).y)[1]["type"]));
+    //cont here
+  }
 });
 
 onInput("k", () => {
@@ -387,23 +419,26 @@ function changeLevel() {
 
 function toggleDrag() {
   if (toggle == 0) {
-    dragSprt = getTile(getFirst(player).x, getFirst(player).y)[1]["type"];
-    if (getTile(getFirst(player).x, getFirst(player).y).length > 1 && ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(player).x, getFirst(player).y)[1]["type"])) {
+    try {
+      dragSprt = getTile(getFirst(player).x, getFirst(player).y)[1]["type"];
+    } catch (error) {}
+    console.log(getTile(getFirst(player).x, getFirst(player).y)[getTile(getFirst(player).x, getFirst(player).y).length - 1]["type"]);
+    if (getTile(getFirst(player).x, getFirst(player).y)[getTile(getFirst(player).x, getFirst(player).y).length - 1]["type"] != "l" && getTile(getFirst(player).x, getFirst(player).y).length > 1 && ["R", "O", "Y", "G", "B", "P"].includes(getTile(getFirst(player).x, getFirst(player).y)[1]["type"])) {
       toggle = 1;
       getFirst(player).type = playerToggle;
       startPos = [getFirst(playerToggle).x, getFirst(playerToggle).y];
-      console.log(startPos);
     }
   } else {
     toggle = 0;
     getFirst(playerToggle).type = player;
     endPos = [getFirst(player).x, getFirst(player).y];
-    console.log(getTile(startPos[0], startPos[1])[0]["type"]);
-    console.log(getTile(endPos[0], endPos[1])[getTile(endPos[0], endPos[1]).length - 1]["type"]);
     if (startPos == endPos || getTile(startPos[0], startPos[1])[0]["type"] != getTile(endPos[0], endPos[1])[getTile(endPos[0], endPos[1]).length - 1]["type"] || (getTile(endPos[0], endPos[1]).length >= 3 && !["R", "O", "Y", "G", "B", "P"].includes(dragSprt))) {
       while (getAll(dict[dragSprt]).length > 0) {
         getFirst(dict[dragSprt]).remove();
       }
+    } else {
+      addSprite(startPos[0], startPos[1], lock);
+      addSprite(endPos[0], endPos[1], lock);
     }
   }
 }
