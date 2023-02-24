@@ -1,6 +1,6 @@
 /*
 @title: connect the dots
-@author: pxkka (Alex)
+@author: Alex Howden
 Recreation of Flow Free
 Maps from the original game
 */
