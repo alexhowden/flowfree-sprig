@@ -1,32 +1,30 @@
 /*
 @title: connect the dots
-@author: pxkka
-- add button to reset one line
-- win logic
-- make a ton of levels for the 5 mins of gameplay
+@author: pxkka (Alex)
+Recreation of Flow Free
+Maps from the original game
 */
 
 const player = "c";
 const playerToggle = "C";
-
 const redEnd = "R";
 const orangeEnd = "O";
 const yellowEnd = "Y";
 const greenEnd = "G";
 const blueEnd = "B";
 const purpleEnd = "P";
-
 const red = "r";
 const orange = "o";
 const yellow = "y";
 const green = "g";
 const blue = "b";
 const purple = "p";
-
 const lock = "l";
 
 const dict = {"R": red, "O": orange, "Y": yellow, "G": green, "B": blue, "P": purple,
               "r": red, "o": orange, "y": yellow, "g": green, "b": blue, "p": purple};
+
+const dictEnd = {"R": redEnd, "O": orangeEnd, "Y": yellowEnd, "G": greenEnd, "B": blueEnd, "P": purpleEnd};
 
 setLegend(
   [player, bitmap`
@@ -294,11 +292,205 @@ c....
 .....
 .....`,
   map`
-B.R.G
-c.O.P
+R.G.Y
+c.B.O
 .....
-.R.G.
-.BOP.`,
+.G.Y.
+.RBO.`,
+  map`
+Y.c..
+.....
+..G..
+BGR.Y
+R...B`,
+  map`
+cYBG.
+...R.
+..R..
+Y..O.
+B.OG.`,
+  map`
+c..RG
+R....
+..Y..
+...B.
+GBY..`,
+  map`
+c..RG
+.YBG.
+.....
+....B
+..R.Y`,
+  map`
+Y.BRG
+c....
+...G.
+.B..R
+....Y`,
+  map`
+Bc.Y.
+G....
+Y.GB.
+.R.R.
+.....`,
+  map`
+Bc.RO
+...Y.
+..Y..
+.RO.G
+.BG..`,
+  map`
+c..R.
+.YBG.
+..Y..
+.....
+BGR..`,
+  map`
+c....
+G..R.
+BRBY.
+.....
+Y...G`,
+  map`
+BYR..
+c....
+.BG..
+.....
+GY..R`,
+  map`
+c..RG
+..BG.
+R....
+OB.YO
+....Y`,
+  map`
+GY.YO
+c....
+R.OB.
+...G.
+...RB`,
+  map`
+c.GYB
+.....
+G..O.
+...RB
+YO..R`,
+  map`
+BY...
+c.G..
+R.B..
+.....
+RGY..`,
+  map`
+c....O
+......
+.YR...
+...G.Y
+.G.ORB
+...B..`,
+  map`
+c..B.Y
+...G.B
+..RY..
+......
+...GR.
+......`,
+  map`
+c....O
+......
+.YR...
+O..G..
+G..BR.
+B..Y..`,
+  map`
+BRc...
+.B..Y.
+YR....
+.G....
+......
+G.....`,
+  map`
+c.....
+....B.
+..RYOG
+GB....
+R...Y.
+O.....`,
+  map`
+c.....
+.Y.RG.
+.O....
+...R..
+..YG..
+BOB...`,
+  map`
+c.....
+......
+...Y..
+...R..
+.R.G..
+.GYB.B`,
+  map`
+c....Y
+...RBG
+..B...
+..G...
+......
+....YR`,
+  map`
+GcY...
+R..B..
+.RGO..
+......
+......
+OBY...`,
+  map`
+c..RPO
+.Y....
+R.P.G.
+Y.G...
+O....B
+B.....`,
+  map`
+c......
+BY...PG
+OB....R
+..Y....
+.....P.
+...O.G.
+R......`,
+  map`
+Pc....R
+O.OPR.B
+......G
+.......
+.G.....
+.Y...B.
+....Y..`,
+  map`
+BcPGO.R
+Y......
+...P...
+Y.BG...
+.......
+.R.....
+......O`,
+  map`
+c...YO.
+.R.G.P.
+.O.....
+...R...
+.B..G..
+....P..
+.YB....`,
+  map`
+c.....B
+...G...
+.....OY
+...R...
+.....R.
+......O
+.B..G.Y`,
 ];
 
 let level = 0;
@@ -312,8 +504,7 @@ addText("I: Toggle Drag", {x: 3, y: 7, color: color`0`});
 addText("J: Reset Color", {x: 3, y: 9, color: color`0`});
 addText("K: Reset Level", {x: 3, y: 11, color: color`0`});
 
-const currentLevel = levels[level];
-setMap(currentLevel);
+setMap(levels[level]);
 
 setSolids([player]);
 
@@ -374,17 +565,19 @@ onInput("i", () => {
 });
 
 onInput("j", () => {
-  console.log(getTile(p().x, p().y)[getTile(p().x, p().y).length - 2]["type"]);
-  if (["R", "O", "Y", "G", "B", "P"].includes(getTile(p().x, p().y)[getTile(p().x, p().y).length - 2]["type"])) {
-    while (getAll(dict[getTile(p().x, p().y)[1]["type"]]).length > 0) {
-      getFirst(dict[getTile(p().x, p().y)[1]["type"]]).remove();
-    }
-    for (var i = 0; i < tilesWith(getTile(p().x, p().y)[1]["type"]).length - 1; i++) {
-      for (var k = 0; k < tilesWith(getTile(p().x, p().y)[1]["type"])[i]; k++) {
-        remove(tilesWith(getTile(p().x, p().y)[1]["type"]));
+  try {
+    const sprt = getTile(p().x, p().y)[1]["type"];
+    if (["R", "O", "Y", "G", "B", "P"].includes(sprt)) {
+      while (getAll(dict[sprt]).length > 0) {
+        getFirst(dict[sprt]).remove();
+      }
+      for (var i = 0; i < tilesWith(dictEnd[sprt]).length; i++) {
+        if (tilesWith(dictEnd[sprt])[i][tilesWith(dictEnd[sprt])[i].length - 1]["type"] == "l") {
+          tilesWith(dictEnd[sprt])[i][tilesWith(dictEnd[sprt])[i].length - 1].remove();
+        }
       }
     }
-  }
+  } catch (error) {}
 });
 
 onInput("k", () => {
@@ -392,9 +585,17 @@ onInput("k", () => {
 });
 
 afterInput(() => {
-  if (level == 0 || tilesWith(player, red, orange, yellow, green, blue, purple).length == currentLevel.length) {
+  if (level == 0) {
     level++;
     changeLevel();
+  }
+  if (tilesWith(lock).length == tilesWith(redEnd).length + tilesWith(orangeEnd).length + tilesWith(yellowEnd).length + tilesWith(greenEnd).length + tilesWith(blueEnd).length + tilesWith(purpleEnd).length) {
+    level = level + 1;
+    if (levels[level] !== undefined) {
+      setMap(levels[level]);
+    } else {
+      addText("you win!", { y: 8, color: color`0` });
+    }
   }
 });
 
@@ -405,8 +606,6 @@ function changeLevel() {
   if (currentLevel !== undefined) {
     clearText("");
     setMap(currentLevel);
-  } else {
-    addText("you win!", { y: 4, color: color`3` });
   }
 }
 
@@ -415,7 +614,6 @@ function toggleDrag() {
     try {
       dragSprt = getTile(p().x, p().y)[1]["type"];
     } catch (error) {}
-    console.log(getTile(p().x, p().y)[getTile(p().x, p().y).length - 1]["type"]);
     if (getTile(p().x, p().y)[getTile(p().x, p().y).length - 1]["type"] != "l" && getTile(p().x, p().y).length > 1 && ["R", "O", "Y", "G", "B", "P"].includes(getTile(p().x, p().y)[1]["type"])) {
       toggle = 1;
       getFirst(player).type = playerToggle;
